@@ -1,0 +1,13 @@
+.venv/
+node_modules/
+__pycache__/
+*.py[cod]
+build/
+dist/
+*.spec
+*.exe
+erros.csv
+clientes.xlsx
+*.inspect.ndjson
+*_preview.png
+!outputs/exemplo/clientes_exemplo.xlsx
