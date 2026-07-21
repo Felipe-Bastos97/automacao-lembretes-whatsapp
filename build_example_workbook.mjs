@@ -41,6 +41,35 @@ sheet.getRange("C:C").format.columnWidth = 26;
 sheet.getRange("D:D").format.columnWidth = 22;
 sheet.getRange("E:E").format.columnWidth = 16;
 
+const cobrancas = workbook.worksheets.add("Cobrancas");
+cobrancas.showGridLines = false;
+cobrancas.freezePanes.freezeRows(1);
+cobrancas.getRange("A1:D4").values = [
+  ["cliente", "telefone", "vencimento", "link_pagamento"],
+  ["Empresa Aurora", "+55 34 99999-0004", new Date("2026-07-28T00:00:00"), "https://pagamentos.exemplo/fatura-001"],
+  ["Comercial Horizonte", "+55 34 99999-0005", new Date("2026-07-30T00:00:00"), "https://pagamentos.exemplo/fatura-002"],
+  ["Studio Primavera", "+55 34 99999-0006", new Date("2026-08-02T00:00:00"), "https://pagamentos.exemplo/fatura-003"],
+];
+cobrancas.getRange("A1:D1").format = {
+  fill: "#075E54",
+  font: { bold: true, color: "#FFFFFF" },
+  horizontalAlignment: "center",
+  verticalAlignment: "center",
+  borders: { preset: "outside", style: "thin", color: "#054C44" },
+};
+cobrancas.getRange("A2:D4").format = {
+  fill: "#F7FAF9",
+  borders: { insideHorizontal: { style: "thin", color: "#D8E6E3" } },
+  verticalAlignment: "center",
+};
+cobrancas.getRange("B2:B4").format.numberFormat = "@";
+cobrancas.getRange("C2:C4").format.numberFormat = "dd/mm/yyyy";
+cobrancas.getRange("A1:D4").format.rowHeight = 22;
+cobrancas.getRange("A:A").format.columnWidth = 24;
+cobrancas.getRange("B:B").format.columnWidth = 26;
+cobrancas.getRange("C:C").format.columnWidth = 18;
+cobrancas.getRange("D:D").format.columnWidth = 44;
+
 const preview = await workbook.render({
   sheetName: "Atendimentos",
   range: "A1:E4",
@@ -48,6 +77,14 @@ const preview = await workbook.render({
   format: "png",
 });
 await fs.writeFile(path.join(outputDir, "clientes_exemplo_preview.png"), new Uint8Array(await preview.arrayBuffer()));
+
+const cobrancasPreview = await workbook.render({
+  sheetName: "Cobrancas",
+  range: "A1:D4",
+  scale: 2,
+  format: "png",
+});
+await fs.writeFile(path.join(outputDir, "cobrancas_exemplo_preview.png"), new Uint8Array(await cobrancasPreview.arrayBuffer()));
 
 const output = await SpreadsheetFile.exportXlsx(workbook);
 await output.save(path.join(outputDir, "clientes_exemplo.xlsx"));
